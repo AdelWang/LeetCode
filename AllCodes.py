@@ -39,3 +39,26 @@ class Solution:
         current_max_length = max(right_index - left_index,current_max_length)
         
         return current_max_length
+    
+    # 求和两个 listnode， 并写成新的 listnode
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        def readNode(listnode):
+            num = 0
+            index = 0
+            while listnode:
+                num +=  listnode.val * (10 ** index) 
+                index += 1
+                listnode = listnode.next
+            return num
+        def writeNode(num):
+            nums = str(num)
+            this_listnode = None
+            previous_listnode = None
+            for n in nums:
+                this_listnode = ListNode(val=int(n),next=previous_listnode)
+                previous_listnode = this_listnode
+            return this_listnode
+        num_1 = readNode(l1)
+        num_2 = readNode(l2)
+        num_sum = num_1 + num_2
+        return writeNode(num_sum)
