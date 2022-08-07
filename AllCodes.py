@@ -14,7 +14,7 @@ class Solution:
             else:
                 continue
                 
-    # 最长回文子串
+    # 最长无重复字串
     def lengthOfLongestSubstring(self, s: str) -> int:
         letter_in_window = defaultdict(int)
         window_length = 0
@@ -98,3 +98,39 @@ class Solution:
                     return (nums2[rest_to_pop - 1] + nums2[rest_to_pop]) / 2
                 else:
                     return (nums2[rest_to_pop] + num_to_pop) / 2
+     # 最长回文子串
+     def longestPalindrome(self, s: str) -> str:
+        max_length = 0
+        flag = False
+        if len(s) < 2:
+            return s
+        for i in range(len(s) - 1):
+            j = i 
+            while j < len(s) - 1:
+                if s[j + 1] == s[i]:
+                    j += 1
+                else:
+                    break
+            for k in range(1, min(i, len(s) - 1 - j) + 1):
+                flag = True
+                index_left = i - k
+                index_right = j + k
+                if s[index_left] == s[index_right]:
+                    continue
+                else:
+                    index_left += 1
+                    index_right -= 1
+                    break
+            if flag:
+                this_length = index_right - index_left + 1
+                if this_length > max_length:
+                    max_length = this_length
+                    max_left = index_left
+                    max_right = index_right
+            else:
+                this_length = j - i + 1
+                if this_length > max_length:
+                    max_length = this_length
+                    max_right = j
+                    max_left = i
+        return s[max_left:max_right + 1]
