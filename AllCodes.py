@@ -62,3 +62,39 @@ class Solution:
         num_2 = readNode(l2)
         num_sum = num_1 + num_2
         return writeNode(num_sum)
+    
+    # 两个有序数组合并求中位数， 这是 m+n 复杂度的版本
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        # method 1
+        current_pops = 0
+        flag = True if (len(nums1) + len(nums2)) % 2 == 0 else False
+        target_pops = int((len(nums1) + len(nums2)) / 2)
+        while nums1 and nums2 and current_pops < target_pops:
+            if nums1[0] <= nums2[0]:
+                num_to_pop = nums1[0]
+                nums1.pop(0)
+            else:
+                num_to_pop = nums2[0]
+                nums2.pop(0)
+            current_pops += 1
+        rest_to_pop = target_pops - current_pops
+        if not flag:
+            if nums1 and nums2:
+                return min(nums1[0],nums2[0])
+            elif nums1:
+                return nums1[rest_to_pop]
+            else:
+                return nums2[rest_to_pop]
+        else:
+            if nums1 and nums2:
+                return (num_to_pop + min(nums1[0],nums2[0])) / 2
+            elif nums1:
+                if rest_to_pop > 0:
+                    return (nums1[rest_to_pop - 1] + nums1[rest_to_pop]) / 2
+                else:
+                    return (nums1[rest_to_pop] + num_to_pop) / 2
+            else:
+                if rest_to_pop > 0:
+                    return (nums2[rest_to_pop - 1] + nums2[rest_to_pop]) / 2
+                else:
+                    return (nums2[rest_to_pop] + num_to_pop) / 2
